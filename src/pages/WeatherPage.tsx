@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/authStore'
 import { useWeatherStore } from '../store/weatherStore'
 import ThemeToggle from '../components/ThemeToggle'
 import { POPULAR_CITIES } from '../data/cities'
+import { colors, spacing, borderRadius, typography } from '../styles/designTokens'
 
 const DEFAULT_CITY = 'London'
 
@@ -48,20 +49,63 @@ const WeatherPage: FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 transition-colors duration-300">
+    <div
+      style={{
+        minHeight: '100vh',
+        background: `linear-gradient(135deg, ${colors.lightBackground} 0%, ${colors.lightBlue} 100%)`,
+        transition: 'background-color 300ms ease',
+      }}
+    >
       <ThemeToggle />
 
       {/* Header */}
-      <header className="bg-white dark:bg-slate-800 shadow-md">
-        <div className="max-w-6xl mx-auto px-4 py-6 flex justify-between items-center">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400 bg-clip-text text-transparent">
+      <header
+        style={{
+          backgroundColor: colors.background,
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1440px',
+            margin: '0 auto',
+            padding: `${spacing[6]} ${spacing[4]}`,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <h1
+            style={{
+              fontSize: typography.fontSize['3xl'],
+              fontWeight: typography.fontWeight.bold,
+              backgroundImage: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.lightBlue} 100%)`,
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
             Weather App
           </h1>
-          <div className="flex items-center gap-4">
-            <span className="text-gray-700 dark:text-gray-300">Welcome, <strong>{user?.name}</strong></span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
+            <span style={{ color: colors.text }}>
+              Welcome, <strong>{user?.name}</strong>
+            </span>
             <button
               onClick={handleLogout}
-              className="btn-primary text-sm"
+              style={{
+                backgroundColor: colors.primary,
+                color: colors.white,
+                padding: `${spacing[2]} ${spacing[4]}`,
+                fontSize: typography.fontSize.sm,
+                border: 'none',
+                borderRadius: borderRadius.md,
+                cursor: 'pointer',
+                fontWeight: typography.fontWeight.semibold,
+                transition: 'all 300ms ease',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.9')}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
             >
               Logout
             </button>
@@ -70,25 +114,75 @@ const WeatherPage: FC = () => {
       </header>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div
+        style={{
+          maxWidth: '1440px',
+          margin: '0 auto',
+          padding: `${spacing[8]} ${spacing[4]}`,
+        }}
+      >
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-500 text-white rounded-lg flex justify-between items-center">
+          <div
+            style={{
+              marginBottom: spacing[6],
+              padding: spacing[4],
+              backgroundColor: colors.error,
+              color: colors.white,
+              borderRadius: borderRadius.md,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <span>{error}</span>
-            <button onClick={clearError} className="text-lg font-bold">
+            <button
+              onClick={clearError}
+              style={{
+                fontSize: '18px',
+                fontWeight: 'bold',
+                background: 'none',
+                border: 'none',
+                color: 'inherit',
+                cursor: 'pointer',
+              }}
+            >
               ✕
             </button>
           </div>
         )}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: spacing[8],
+          }}
+        >
           {/* Sidebar */}
-          <div className="lg:col-span-1">
+          <div>
             {/* Search */}
-            <div className="card-base mb-6">
-              <h2 className="text-lg font-semibold mb-4">Search City</h2>
-              <div className="relative">
-                <div className="flex items-center gap-2">
-                  <span className="text-xl">🔍</span>
+            <div
+              style={{
+                backgroundColor: colors.background,
+                borderRadius: borderRadius.lg,
+                padding: spacing[6],
+                marginBottom: spacing[6],
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: typography.fontSize.lg,
+                  fontWeight: typography.fontWeight.semibold,
+                  marginBottom: spacing[4],
+                  color: colors.text,
+                }}
+              >
+                Search City
+              </h2>
+              <div style={{ position: 'relative' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: spacing[2] }}>
+                  <span style={{ fontSize: '20px' }}>🔍</span>
                   <input
                     type="text"
                     placeholder="Search city..."
@@ -100,7 +194,16 @@ const WeatherPage: FC = () => {
                         setShowSuggestions(true)
                       }
                     }}
-                    className="input-field"
+                    style={{
+                      width: '100%',
+                      padding: `${spacing[3]} ${spacing[4]}`,
+                      fontSize: typography.fontSize.base,
+                      border: `2px solid ${colors.border}`,
+                      borderRadius: borderRadius.md,
+                      backgroundColor: colors.background,
+                      color: colors.text,
+                      boxSizing: 'border-box',
+                    }}
                   />
                   {searchInput && (
                     <button
@@ -109,21 +212,54 @@ const WeatherPage: FC = () => {
                         setSuggestions([])
                         setShowSuggestions(false)
                       }}
-                      className="text-gray-400 hover:text-gray-600"
+                      style={{
+                        color: colors.textTertiary,
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                      }}
                     >
                       ✕
                     </button>
                   )}
                 </div>
                 {showSuggestions && suggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg shadow-lg z-10 max-h-64 overflow-y-auto">
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: 0,
+                      right: 0,
+                      marginTop: spacing[2],
+                      backgroundColor: colors.background,
+                      border: `1px solid ${colors.border}`,
+                      borderRadius: borderRadius.md,
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                      zIndex: 10,
+                      maxHeight: '256px',
+                      overflowY: 'auto',
+                    }}
+                  >
                     {suggestions.map((suggestion) => (
                       <button
                         key={suggestion}
                         onClick={() => loadCity(suggestion)}
-                        className="w-full text-left px-4 py-3 hover:bg-indigo-50 dark:hover:bg-slate-600 transition-colors border-b border-gray-100 dark:border-slate-600 last:border-b-0"
+                        style={{
+                          width: '100%',
+                          textAlign: 'left',
+                          padding: `${spacing[3]} ${spacing[4]}`,
+                          backgroundColor: 'transparent',
+                          border: 'none',
+                          borderBottom: `1px solid ${colors.border}`,
+                          color: colors.text,
+                          cursor: 'pointer',
+                          transition: 'background-color 200ms ease',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = colors.lightBackground)}
+                        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                       >
-                        <span className="text-lg mr-2">📍</span>
+                        <span style={{ fontSize: '18px', marginRight: spacing[2] }}>📍</span>
                         {suggestion}
                       </button>
                     ))}
@@ -134,14 +270,48 @@ const WeatherPage: FC = () => {
 
             {/* Recent Searches */}
             {recentSearches.length > 0 && (
-              <div className="card-base mb-6">
-                <h3 className="text-lg font-semibold mb-4">Recent Searches</h3>
-                <div className="flex flex-wrap gap-2">
+              <div
+                style={{
+                  backgroundColor: colors.background,
+                  borderRadius: borderRadius.lg,
+                  padding: spacing[6],
+                  marginBottom: spacing[6],
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: typography.fontSize.lg,
+                    fontWeight: typography.fontWeight.semibold,
+                    marginBottom: spacing[4],
+                    color: colors.text,
+                  }}
+                >
+                  Recent Searches
+                </h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: spacing[2] }}>
                   {recentSearches.map((city) => (
                     <button
                       key={city}
                       onClick={() => loadCity(city)}
-                      className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 rounded-full text-sm hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors"
+                      style={{
+                        padding: `${spacing[1]} ${spacing[3]}`,
+                        backgroundColor: colors.primaryLight,
+                        color: colors.primary,
+                        borderRadius: '9999px',
+                        fontSize: typography.fontSize.sm,
+                        border: 'none',
+                        cursor: 'pointer',
+                        transition: 'all 200ms ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = colors.primary
+                        e.currentTarget.style.color = colors.white
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = colors.primaryLight
+                        e.currentTarget.style.color = colors.primary
+                      }}
                     >
                       {city}
                     </button>
@@ -151,18 +321,54 @@ const WeatherPage: FC = () => {
             )}
 
             {/* Popular Cities */}
-            <div className="card-base">
-              <h3 className="text-lg font-semibold mb-4">Popular Cities</h3>
-              <div className="grid grid-cols-2 gap-3">
+            <div
+              style={{
+                backgroundColor: colors.background,
+                borderRadius: borderRadius.lg,
+                padding: spacing[6],
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: typography.fontSize.lg,
+                  fontWeight: typography.fontWeight.semibold,
+                  marginBottom: spacing[4],
+                  color: colors.text,
+                }}
+              >
+                Popular Cities
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: spacing[3] }}>
                 {POPULAR_CITIES.map((city) => (
                   <button
                     key={city}
                     onClick={() => loadCity(city)}
-                    className="card-base hover:shadow-lg transition-all text-left p-4 cursor-pointer hover:-translate-y-1"
+                    style={{
+                      backgroundColor: colors.background,
+                      border: `2px solid ${colors.border}`,
+                      borderRadius: borderRadius.md,
+                      padding: spacing[4],
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      transition: 'all 200ms ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                      e.currentTarget.style.transform = 'translateY(-4px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow = 'none'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
                   >
-                    <div className="text-3xl mb-2">🌍</div>
-                    <div className="font-semibold text-sm">{city}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">Click to view</div>
+                    <div style={{ fontSize: '32px', marginBottom: spacing[2] }}>🌍</div>
+                    <div style={{ fontWeight: typography.fontWeight.semibold, fontSize: typography.fontSize.sm, color: colors.text }}>
+                      {city}
+                    </div>
+                    <div style={{ fontSize: typography.fontSize.xs, color: colors.textTertiary }}>
+                      Click to view
+                    </div>
                   </button>
                 ))}
               </div>
@@ -170,28 +376,62 @@ const WeatherPage: FC = () => {
           </div>
 
           {/* Weather Display */}
-          <div className="lg:col-span-2">
+          <div>
             {loading ? (
-              <div className="card-base h-96 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-4xl animate-spin mb-4">⟳</div>
-                  <p className="text-gray-600 dark:text-gray-400">Loading weather...</p>
+              <div
+                style={{
+                  backgroundColor: colors.background,
+                  borderRadius: borderRadius.lg,
+                  minHeight: '384px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                }}
+              >
+                <div style={{ textAlign: 'center' }}>
+                  <div
+                    style={{
+                      fontSize: '32px',
+                      animation: 'spin 1s linear infinite',
+                      marginBottom: spacing[4],
+                    }}
+                  >
+                    ⟳
+                  </div>
+                  <p style={{ color: colors.textSecondary }}>Loading weather...</p>
                 </div>
               </div>
             ) : currentWeather ? (
               <>
                 {/* Header */}
-                <div className="mb-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <h2 className="text-4xl font-bold">{currentWeather.name || currentWeather.city}</h2>
+                <div style={{ marginBottom: spacing[6] }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: spacing[2] }}>
+                    <h2
+                      style={{
+                        fontSize: typography.fontSize['4xl'],
+                        fontWeight: typography.fontWeight.bold,
+                        color: colors.text,
+                      }}
+                    >
+                      {currentWeather.name || currentWeather.city}
+                    </h2>
                     <button
                       onClick={() => loadCity(currentWeather.city)}
-                      className="text-2xl hover:scale-110 transition-transform"
+                      style={{
+                        fontSize: '24px',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        transition: 'transform 200ms ease',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                     >
                       🔄
                     </button>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p style={{ color: colors.textSecondary }}>
                     {new Date().toLocaleDateString('en-US', {
                       weekday: 'long',
                       year: 'numeric',
@@ -202,66 +442,107 @@ const WeatherPage: FC = () => {
                 </div>
 
                 {/* Temperature Card */}
-                <div className="bg-gradient-to-br from-indigo-500 to-blue-500 dark:from-indigo-600 dark:to-blue-600 rounded-2xl p-8 text-white mb-6 shadow-lg">
-                  <div className="flex items-start justify-between mb-4">
+                <div
+                  style={{
+                    backgroundImage: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.lightBlue} 100%)`,
+                    borderRadius: '24px',
+                    padding: spacing[8],
+                    color: colors.white,
+                    marginBottom: spacing[6],
+                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: spacing[4] }}>
                     <div>
-                      <div className="text-7xl font-bold mb-2">{currentWeather.temp}°</div>
-                      <p className="text-lg opacity-90">{currentWeather.description}</p>
+                      <div
+                        style={{
+                          fontSize: typography.fontSize['7xl'],
+                          fontWeight: typography.fontWeight.bold,
+                          marginBottom: spacing[2],
+                          lineHeight: 1,
+                        }}
+                      >
+                        {currentWeather.temp}°
+                      </div>
+                      <p style={{ fontSize: typography.fontSize.lg, opacity: 0.9 }}>{currentWeather.description}</p>
                     </div>
-                    <div className="text-8xl">{currentWeather.icon}</div>
+                    <div style={{ fontSize: typography.fontSize['8xl'] }}>{currentWeather.icon}</div>
                   </div>
-                  <div className="border-t border-white/20 pt-4 flex justify-between">
+                  <div
+                    style={{
+                      borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+                      paddingTop: spacing[4],
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
                     <span>Feels like</span>
-                    <span className="font-bold text-xl">{currentWeather.feels_like}°</span>
+                    <span style={{ fontWeight: typography.fontWeight.bold, fontSize: typography.fontSize.xl }}>{currentWeather.feels_like}°</span>
                   </div>
                 </div>
 
                 {/* Details Grid */}
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="card-base">
-                    <div className="text-2xl mb-2">💨</div>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Wind</p>
-                    <p className="text-2xl font-bold">{currentWeather.windSpeed} km/h</p>
-                  </div>
-                  <div className="card-base">
-                    <div className="text-2xl mb-2">💧</div>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Humidity</p>
-                    <p className="text-2xl font-bold">{currentWeather.humidity}%</p>
-                  </div>
-                  <div className="card-base">
-                    <div className="text-2xl mb-2">🧭</div>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Pressure</p>
-                    <p className="text-2xl font-bold">{currentWeather.pressure} mb</p>
-                  </div>
-                  <div className="card-base">
-                    <div className="text-2xl mb-2">👁️</div>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Visibility</p>
-                    <p className="text-2xl font-bold">{currentWeather.visibility} km</p>
-                  </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: spacing[4], marginBottom: spacing[6] }}>
+                  {[
+                    { icon: '💨', label: 'Wind', value: `${currentWeather.windSpeed} km/h` },
+                    { icon: '💧', label: 'Humidity', value: `${currentWeather.humidity}%` },
+                    { icon: '🧭', label: 'Pressure', value: `${currentWeather.pressure} mb` },
+                    { icon: '👁️', label: 'Visibility', value: `${currentWeather.visibility} km` },
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        backgroundColor: colors.background,
+                        borderRadius: borderRadius.lg,
+                        padding: spacing[4],
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                      }}
+                    >
+                      <div style={{ fontSize: '24px', marginBottom: spacing[2] }}>{item.icon}</div>
+                      <p style={{ color: colors.textSecondary, fontSize: typography.fontSize.sm }}>{item.label}</p>
+                      <p style={{ fontSize: typography.fontSize['2xl'], fontWeight: typography.fontWeight.bold, color: colors.text }}>
+                        {item.value}
+                      </p>
+                    </div>
+                  ))}
                 </div>
 
                 {/* Additional Info */}
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="card-base">
-                    <div className="text-2xl mb-2">🌅</div>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Sunrise</p>
-                    <p className="font-bold">{currentWeather.sunrise}</p>
-                  </div>
-                  <div className="card-base">
-                    <div className="text-2xl mb-2">🌇</div>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">Sunset</p>
-                    <p className="font-bold">{currentWeather.sunset}</p>
-                  </div>
-                  <div className="card-base">
-                    <div className="text-2xl mb-2">🌡️</div>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">UV Index</p>
-                    <p className="font-bold">{currentWeather.uvIndex}</p>
-                  </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: spacing[4] }}>
+                  {[
+                    { icon: '🌅', label: 'Sunrise', value: currentWeather.sunrise },
+                    { icon: '🌇', label: 'Sunset', value: currentWeather.sunset },
+                    { icon: '🌡️', label: 'UV Index', value: currentWeather.uvIndex },
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        backgroundColor: colors.background,
+                        borderRadius: borderRadius.lg,
+                        padding: spacing[4],
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                      }}
+                    >
+                      <div style={{ fontSize: '24px', marginBottom: spacing[2] }}>{item.icon}</div>
+                      <p style={{ color: colors.textSecondary, fontSize: typography.fontSize.sm }}>{item.label}</p>
+                      <p style={{ fontWeight: typography.fontWeight.bold, color: colors.text }}>{item.value}</p>
+                    </div>
+                  ))}
                 </div>
               </>
             ) : (
-              <div className="card-base h-96 flex items-center justify-center">
-                <p className="text-gray-600 dark:text-gray-400">No weather data available</p>
+              <div
+                style={{
+                  backgroundColor: colors.background,
+                  borderRadius: borderRadius.lg,
+                  minHeight: '384px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                }}
+              >
+                <p style={{ color: colors.textSecondary }}>No weather data available</p>
               </div>
             )}
           </div>

@@ -32,6 +32,11 @@ export const colors = {
   text: '#1F2937',         // Dark text
   textLight: '#6B7280',    // Light text
   textLighter: '#9CA3AF',  // Lighter text
+  textSecondary: '#6B7280', // Light gray text
+  textTertiary: '#9CA3AF', // Lighter gray text
+  lightBackground: '#F0F4F8', // Very light blue background
+  lightBlue: '#0EA5E9',    // Sky blue for gradients
+  overlay: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
   white: '#FFFFFF',
   black: '#000000',
 } as const;
@@ -56,6 +61,8 @@ export const typography = {
     '2xl': '24px',
     '3xl': '32px',
     '4xl': '48px',
+    '7xl': '56px',
+    '8xl': '64px',
   },
 
   // Font Weights

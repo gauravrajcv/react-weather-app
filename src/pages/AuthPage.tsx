@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/authStore'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import ThemeToggle from '../components/ThemeToggle'
+import { colors, spacing, borderRadius, typography } from '../styles/designTokens'
 
 type FormType = 'login' | 'signup'
 
@@ -148,31 +149,111 @@ const AuthPage: FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
+    <div
+      style={{
+        minHeight: '100vh',
+        background: `linear-gradient(135deg, ${colors.lightBackground} 0%, ${colors.lightBlue} 100%)`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: spacing[4],
+      }}
+    >
       <ThemeToggle />
 
-      <div className="w-full max-w-md animate-slide-up">
+      <div style={{ width: '100%', maxWidth: '448px', animation: 'slideUp 0.6s ease-out' }}>
         {/* Success Modal */}
         {showSuccess && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="card-base text-center max-w-sm">
-              <div className="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center text-3xl mx-auto mb-4">
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              backgroundColor: colors.overlay,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 50,
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: colors.background,
+                borderRadius: borderRadius.lg,
+                padding: spacing[8],
+                textAlign: 'center',
+                maxWidth: '448px',
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <div
+                style={{
+                  width: '64px',
+                  height: '64px',
+                  borderRadius: '50%',
+                  backgroundColor: colors.success,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '32px',
+                  margin: '0 auto ' + spacing[4],
+                }}
+              >
                 ✓
               </div>
-              <h2 className="text-2xl font-bold mb-2">Success!</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">{successMessage}</p>
-              <p className="text-sm text-gray-500">Redirecting...</p>
+              <h2
+                style={{
+                  fontSize: typography.fontSize['2xl'],
+                  fontWeight: typography.fontWeight.bold,
+                  marginBottom: spacing[2],
+                  color: colors.text,
+                }}
+              >
+                Success!
+              </h2>
+              <p
+                style={{
+                  color: colors.textSecondary,
+                  marginBottom: spacing[6],
+                }}
+              >
+                {successMessage}
+              </p>
+              <p
+                style={{
+                  fontSize: typography.fontSize.sm,
+                  color: colors.textTertiary,
+                }}
+              >
+                Redirecting...
+              </p>
             </div>
           </div>
         )}
 
         {/* Form Container */}
-        <div className="card-base">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400 bg-clip-text text-transparent mb-2">
+        <div
+          style={{
+            backgroundColor: colors.background,
+            borderRadius: borderRadius.lg,
+            padding: spacing[8],
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <div style={{ textAlign: 'center', marginBottom: spacing[8] }}>
+            <h1
+              style={{
+                fontSize: typography.fontSize['3xl'],
+                fontWeight: typography.fontWeight.bold,
+                backgroundImage: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.lightBlue} 100%)`,
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                marginBottom: spacing[2],
+              }}
+            >
               {formType === 'login' ? 'Welcome Back' : 'Create Account'}
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p style={{ color: colors.textSecondary }}>
               {formType === 'login' ? 'Sign in to your account' : 'Join us today'}
             </p>
           </div>
@@ -227,12 +308,28 @@ const AuthPage: FC = () => {
             />
 
             {formType === 'login' && (
-              <div className="flex items-center justify-between mb-6">
-                <label className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                  <input type="checkbox" className="mr-2 accent-indigo-600" />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing[6] }}>
+                <label style={{ display: 'flex', alignItems: 'center', fontSize: typography.fontSize.sm, color: colors.text }}>
+                  <input
+                    type="checkbox"
+                    style={{
+                      marginRight: spacing[2],
+                      accentColor: colors.primary,
+                      cursor: 'pointer',
+                    }}
+                  />
                   Remember me
                 </label>
-                <a href="#" className="text-sm text-indigo-600 hover:text-indigo-700 dark:text-indigo-400">
+                <a
+                  href="#"
+                  style={{
+                    fontSize: typography.fontSize.sm,
+                    color: colors.primary,
+                    textDecoration: 'none',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                >
                   Forgot password?
                 </a>
               </div>
@@ -254,28 +351,56 @@ const AuthPage: FC = () => {
                 />
 
                 {signupForm.password && (
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center text-sm mb-2">
-                      <span className="text-gray-600 dark:text-gray-400">Password Strength</span>
-                      <span className={`font-semibold ${
-                        getPasswordStrength(signupForm.password) === 'weak' ? 'text-red-500' :
-                        getPasswordStrength(signupForm.password) === 'medium' ? 'text-yellow-500' :
-                        'text-green-500'
-                      }`}>
-                        {getPasswordStrength(signupForm.password).charAt(0).toUpperCase() + getPasswordStrength(signupForm.password).slice(1)}
+                  <div style={{ marginBottom: spacing[4] }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: typography.fontSize.sm, marginBottom: spacing[2] }}>
+                      <span style={{ color: colors.textSecondary }}>Password Strength</span>
+                      <span
+                        style={{
+                          fontWeight: typography.fontWeight.semibold,
+                          color:
+                            getPasswordStrength(signupForm.password) === 'weak'
+                              ? colors.error
+                              : getPasswordStrength(signupForm.password) === 'medium'
+                              ? colors.warning
+                              : colors.success,
+                        }}
+                      >
+                        {getPasswordStrength(signupForm.password).charAt(0).toUpperCase() +
+                          getPasswordStrength(signupForm.password).slice(1)}
                       </span>
                     </div>
-                    <div className="w-full h-1 bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden">
-                      <div className={`h-full transition-all ${
-                        getPasswordStrength(signupForm.password) === 'weak' ? 'w-1/3 bg-red-500' :
-                        getPasswordStrength(signupForm.password) === 'medium' ? 'w-2/3 bg-yellow-500' :
-                        'w-full bg-green-500'
-                      }`} />
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '4px',
+                        backgroundColor: colors.border,
+                        borderRadius: borderRadius.full,
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <div
+                        style={{
+                          height: '100%',
+                          transition: 'all 300ms ease',
+                          backgroundColor:
+                            getPasswordStrength(signupForm.password) === 'weak'
+                              ? colors.error
+                              : getPasswordStrength(signupForm.password) === 'medium'
+                              ? colors.warning
+                              : colors.success,
+                          width:
+                            getPasswordStrength(signupForm.password) === 'weak'
+                              ? '33%'
+                              : getPasswordStrength(signupForm.password) === 'medium'
+                              ? '66%'
+                              : '100%',
+                        }}
+                      />
                     </div>
                   </div>
                 )}
 
-                <label className="flex items-start gap-3 mb-6 text-sm text-gray-700 dark:text-gray-300">
+                <label style={{ display: 'flex', gap: spacing[3], marginBottom: spacing[6], fontSize: typography.fontSize.sm, color: colors.text }}>
                   <input
                     type="checkbox"
                     checked={signupForm.terms}
@@ -283,20 +408,50 @@ const AuthPage: FC = () => {
                       setSignupForm({ ...signupForm, terms: e.target.checked })
                       setErrors({ ...errors, terms: '' })
                     }}
-                    className="mt-1 accent-indigo-600"
+                    style={{
+                      marginTop: spacing[1],
+                      accentColor: colors.primary,
+                      cursor: 'pointer',
+                    }}
                   />
                   <span>
                     I agree to the{' '}
-                    <a href="#" className="text-indigo-600 hover:underline dark:text-indigo-400">
+                    <a
+                      href="#"
+                      style={{
+                        color: colors.primary,
+                        textDecoration: 'none',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                      onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                    >
                       Terms of Service
                     </a>
                     {' '}and{' '}
-                    <a href="#" className="text-indigo-600 hover:underline dark:text-indigo-400">
+                    <a
+                      href="#"
+                      style={{
+                        color: colors.primary,
+                        textDecoration: 'none',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                      onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+                    >
                       Privacy Policy
                     </a>
                   </span>
                 </label>
-                {errors.terms && <p className="error-text mb-4">{errors.terms}</p>}
+                {errors.terms && (
+                  <p
+                    style={{
+                      color: colors.error,
+                      fontSize: typography.fontSize.sm,
+                      marginBottom: spacing[4],
+                    }}
+                  >
+                    {errors.terms}
+                  </p>
+                )}
               </>
             )}
 
@@ -305,7 +460,7 @@ const AuthPage: FC = () => {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+          <div style={{ marginTop: spacing[6], textAlign: 'center', fontSize: typography.fontSize.sm, color: colors.textSecondary }}>
             {formType === 'login' ? (
               <>
                 Don't have an account?{' '}
@@ -314,7 +469,17 @@ const AuthPage: FC = () => {
                     setFormType('signup')
                     setErrors({})
                   }}
-                  className="text-indigo-600 hover:underline font-semibold dark:text-indigo-400"
+                  style={{
+                    color: colors.primary,
+                    textDecoration: 'none',
+                    fontWeight: typography.fontWeight.semibold,
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: 'inherit',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
                 >
                   Sign up
                 </button>
@@ -327,7 +492,17 @@ const AuthPage: FC = () => {
                     setFormType('login')
                     setErrors({})
                   }}
-                  className="text-indigo-600 hover:underline font-semibold dark:text-indigo-400"
+                  style={{
+                    color: colors.primary,
+                    textDecoration: 'none',
+                    fontWeight: typography.fontWeight.semibold,
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: 'inherit',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
                 >
                   Sign in
                 </button>
