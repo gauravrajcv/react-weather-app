@@ -1,0 +1,12 @@
+{
+  "personalAccessToken": "${FIGMA_TOKEN}",
+  "fileId": "6NbxzZ2fb7s3krDliQv5qm",
+  "outputDir": "./src/designs",
+  "exportSettings": {
+    "format": "json",
+    "includeComponents": true,
+    "includeAssets": true,
+    "flattenPages": false
+  },
+  "description": "Figma to Code integration for Weather Dashboard"
+}

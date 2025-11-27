@@ -17,12 +17,15 @@
     "postcss": "^8.4.0",
     "autoprefixer": "^10.4.0",
     "vite": "^5.0.0",
-    "@vitejs/plugin-react": "^4.2.0"
+    "@vitejs/plugin-react": "^4.2.0",
+    "figma-api": "^1.15.0"
   },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint src --ext ts,tsx"
+    "lint": "eslint src --ext ts,tsx",
+    "design:export": "node scripts/figma-export.js",
+    "design:sync": "npm run design:export && npm run build"
   }
 }
